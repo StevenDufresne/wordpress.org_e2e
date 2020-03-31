@@ -17,10 +17,15 @@ context('Themes', () => {
 			const { postsPerPage } = win._wpThemeSettings.settings;
 			const { total } = win._wpThemeSettings.query;
 
-			cy.get('.theme-count').contains( total );
+			cy.get('.theme-count')
+				.invoke('text')
+				.then((x) => {
+					const num = +x.replace(',', '');
+					expect(num).to.equal(total);
+				});
 		});
 	});
-	
+
 	it('it should add the correct query to the settings variable without page in url', () => {
 		cy.window().then((win) => {
 			const { request } = win._wpThemeSettings.query;
@@ -94,11 +99,11 @@ context('Themes', () => {
 	});
 
 	it('it should not show the paging alert element', () => {
-	  cy.get( '#viewing-paged-alert' ).should( 'be.hidden' );
+		cy.get('#viewing-paged-alert').should('be.hidden');
 	});
 
 	it('it should show the paging alert element', () => {
-	  cy.visit('/themes/browse/new/page/2');
-	  cy.get( '#viewing-paged-alert' ).should( 'be.visible' );
+		cy.visit('/themes/browse/new/page/2');
+		cy.get('#viewing-paged-alert').should('be.visible');
 	});
 });
