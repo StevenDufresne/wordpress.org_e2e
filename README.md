@@ -4,4 +4,5 @@ A basic cypress project to run tests for wordpress.org.
 # Setup
 
 - `npm install`
-- `npm run tests`
+- `npm run test`
+- `npm run test:interaction` -> Opens the cypress browser
