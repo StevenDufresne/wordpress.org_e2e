@@ -5,4 +5,4 @@ A basic cypress project to run tests for wordpress.org.
 
 - `npm install`
 - `npm run test`
-- `npm run test:interaction` -> Opens the cypress browser
+- `npm run test:interactive` -> Opens the cypress browser
