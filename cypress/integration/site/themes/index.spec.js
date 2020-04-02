@@ -106,4 +106,35 @@ context('Themes', () => {
 		cy.visit('/themes/browse/new/page/2');
 		cy.get('#viewing-paged-alert').should('be.visible');
 	});
+
+	it('it should return no themes on search', () => {
+		const nonMatchingSearch = '234234rasdfhalskjhlk2j5r';
+
+		cy.get('#wp-filter-search-input').type(nonMatchingSearch);
+		cy.get('.no-themes').should('be.visible');
+		cy.get('.theme').should('have.length', 0);
+	});
+
+	it('it should return search items that differ from load', () => {
+		const commonSearch = 'business';
+		const firstTheme = cy.get('.theme .url').first();
+		const firstThemeUrl = firstTheme.invoke('attr', 'href');
+
+		cy.get('#wp-filter-search-input').type(commonSearch);
+
+		const firstThemeAfterSearch = cy.get('.theme .url').first();
+		const firstThemeAfterSearchUrl = firstThemeAfterSearch.invoke(
+			'attr',
+			'href'
+		);
+		expect(firstThemeAfterSearchUrl === firstThemeUrl).to.be.false;
+	});
+
+	it('it should load related themes from search url', () => {
+		cy.visit('/themes/search/business/');
+
+		const firstTheme = cy.get('.theme .url').first();
+		firstTheme.invoke('attr', 'href').should('include', 'business');
+
+	});
 });
